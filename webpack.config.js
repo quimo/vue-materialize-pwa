@@ -1,9 +1,20 @@
-const path = require('path');
-const SWPrecache = require('sw-precache-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path')
+const SWPrecache = require('sw-precache-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader')
 
 module.exports = {
     mode: "production",
+    /*
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                use: 'vue-loader'
+            }
+        ]
+    },
+    */
     plugins: [
         //plugin per usare i service worker
         new SWPrecache({
@@ -23,6 +34,7 @@ module.exports = {
             { from: './src/manifest.json', to: './manifest.json' },
             { from: './src/style.css', to: './style.css' },
             { from: './src/images/', to: './images/' }
-        ])
+        ]),
+        //new VueLoaderPlugin(),
     ]
 }
