@@ -1,6 +1,6 @@
 const path = require('path')
-const SWPrecache = require('sw-precache-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const {GenerateSW} = require('workbox-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader')
 
 module.exports = {
@@ -16,25 +16,17 @@ module.exports = {
     },
     */
     plugins: [
-        //plugin per usare i service worker
-        new SWPrecache({
-            cacheId: 'demoapp',
-            filepath: 'service-worker.js',
-            staticFileGlobs: [
-            'index.html',
-            'manifest.json',
-            ],
-            stripPrefix: '/'
-        }),
+        //service worker + precacher
         //plugin per copiare file statici tra src e dist
         new CopyPlugin([
-            { from: './service-worker.js', to: './service-worker.js' },
             { from: './node_modules/materialize-css/dist/css/materialize.min.css', to: './materialize.min.css' },
             { from: './node_modules/materialize-css/dist/js/materialize.min.js', to: './materialize.min.js' },
             { from: './src/manifest.json', to: './manifest.json' },
             { from: './src/style.css', to: './style.css' },
+            { from: './src/index.html', to: './index.html' },
             { from: './src/images/', to: './images/' }
         ]),
         //new VueLoaderPlugin(),
+        new GenerateSW(),
     ]
 }
