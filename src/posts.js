@@ -2,7 +2,7 @@ export default {
     template: `
     <div class="post">
         <div class="posts__loading" v-if="posts_flag.loading">Loading...</div>
-        <div class="posts__error" v-if="posts_flag.error">Error!</div>
+        <div class="posts__error" v-if="posts_flag.error">Sorgente non disponibile!</div>
         <ul class="posts__items" v-if="posts_flag.loaded">
             <li class="post__item" v-for="post in posts">
                 <h2><a target="_blank" v-bind:href="post.guid.rendered">{{ post.title.rendered }}</a></h2>
@@ -48,6 +48,8 @@ export default {
             })
             .catch(() => {
                 this.posts_flag.error = true;
+                this.posts_flag.loading = false;
+                this.posts_flag.reload = true;
             });
         }
     },
